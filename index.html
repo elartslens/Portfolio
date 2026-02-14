@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rohit Rawat | Portfolio</title>
-    <!-- Tailwind CSS -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Prevent caching to ensure updates are reflected immediately -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <title>Rohit Rawat - Quantitative Economist</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React and Babel for browser compilation -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'fade-in-down': 'fadeInDown 0.2s ease-out',
+            },
+            keyframes: {
+              fadeInDown: {
+                '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .select-all { user-select: all; }
         /* Custom scrollbar for minimalist look */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -29,474 +47,21 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-[#F9F9F9]">
+  <body class="bg-[#F9F9F9]">
     <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        
-        // Custom SVG Icon Components
-        const Linkedin = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-        );
-        const Mail = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-        );
-        const ArrowRight = ({ size = 18 }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        );
-        const ChevronRight = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        );
-        const ChevronLeft = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        );
-        const Copy = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        );
-        const Check = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        );
-        const Camera = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-10"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        );
-        const X = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        );
-        const Target = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-        );
-
-        const App = () => {
-            const [scrolled, setScrolled] = useState(false);
-            const [isEmailExpanded, setIsEmailExpanded] = useState(false);
-            const [hasCopied, setHasCopied] = useState(false);
-            const [workPage, setWorkPage] = useState(1);
-            const [selectedProject, setSelectedProject] = useState(null);
-            const emailRef = useRef(null);
-
-            useEffect(() => {
-                const handleScroll = () => setScrolled(window.scrollY > 50);
-                const handleClickOutside = (event) => {
-                    if (emailRef.current && !emailRef.current.contains(event.target)) {
-                        setIsEmailExpanded(false);
-                        setHasCopied(false);
-                    }
-                };
-                window.addEventListener('scroll', handleScroll);
-                document.addEventListener('mousedown', handleClickOutside);
-                return () => {
-                    window.removeEventListener('scroll', handleScroll);
-                    document.removeEventListener('mousedown', handleClickOutside);
-                };
-            }, []);
-
-            const profile = {
-                name: "ROHIT RAWAT",
-                title: "Strategy Analytics | Applied Econometrics",
-                firm: "Consultant at Deloitte",
-                practice: "Strategic Pricing & Growth",
-                email: "rawatrohit0299@gmail.com",
-                linkedin: "https://linkedin.com/in/rohitrawat072",
-                linkedinHandle: "rohitrawat072",
-                photography: "https://elartsylens.com",
-                logoUrl: "https://lh3.googleusercontent.com/pw/AP1GczPm6uDEw6eSc0Tn1CY1QjfRTba1__LCLXCgGHyIEIqnnt949UGNZje7RbwAbAY9AWNWVpyPQyrTNB8ufD7eAsmlMTmsp29qR_afvcmCREbs6k0L6kXsNaIMuNLtHCpciEjy8aFN_yJCP7N1Sok0FwfvsA=w454-h406-s-no-gm?authuser=0",
-                work: [
-                    { id: "01", title: "Economic Impact Analysis", subtitle: "Mahakumbh Mela Event", impact: "$23.5B GDP Contribution", desc: "National income accounting model estimating sectoral demand across hospitality and retail.", tags: ["Input-Output Model", "R"] },
-                    { id: "02", title: "Risk & Anomaly Detection", subtitle: "Behavioral Analytics", impact: "$90M Potential Recovery", desc: "PCA-based scoring system for 20,000+ entities to automate high-risk flagging.", tags: ["PCA", "Anomaly Detection"] },
-                    { id: "03", title: "Industrial Index Rebasing", subtitle: "Value Discovery", impact: "$700M Value Addition", desc: "Correcting MSME contribution underestimation using alternative activity proxies.", tags: ["Metric Design", "Nowcasting"] },
-                    { 
-                        id: "04", 
-                        title: "Pricing Optimization", 
-                        subtitle: "Revenue Strategy", 
-                        impact: "10% Margin Increase", 
-                        desc: "Elasticity-driven optimization model for cross-market benchmarking.", 
-                        tags: ["Elasticity", "Optimization"],
-                        hasDetailedView: true,
-                        details: {
-                            title: "Elasticity-Driven Pricing Optimization Model (R)",
-                            objective: "Built a simulation framework that quantifies volume–price response across liquor segments and runs revenue scenarios for alternative rate structures using cross-market benchmarks.",
-                            table: [
-                                { type: "Country Liquor (CL)", price: "+10%", consumption: "−14%", revenue: "−5.4%", elasticity: "−1.4 (Elastic)", val: -5.4 },
-                                { type: "Foreign Liquor (FL)", price: "+10%", consumption: "−4%", revenue: "+5.6%", elasticity: "−0.4 (Inelastic)", val: 5.6 },
-                                { type: "Beer", price: "−5%", consumption: "+12%", revenue: "+6.4%", elasticity: "−2.4 (Highly Elastic)", val: 6.4 }
-                            ],
-                            insight: "A uniform rate increase is structurally inefficient. Premium FL delivers a 5.6% revenue lift under a 10% hike due to brand stickiness and prestige consumption. The same action in CL produces a 5.4% contraction, as highly price-sensitive consumers shift to illicit or cross-border supply.",
-                            mechanisms: [
-                                { title: "Price Floor Detection", desc: "Detects the effective price floor constraint in CL and the associated substitution risk." },
-                                { title: "Brand Inelasticity", desc: "Quantifies brand-driven inelasticity in FL for premiumization strategies." },
-                                { title: "Arbitrage Benchmarking", desc: "Incorporates inter-state leakage elasticity into benchmarking as a core decision variable." },
-                                { title: "Scenario Testing", desc: "Enables segment-wise simulation to identify revenue-maximizing bands." }
-                            ],
-                            outcome: "Transforms pricing from uniform excise revisions to a segment-wise revenue optimization strategy."
-                        }
-                    },
-                    { id: "05", title: "Performance Gap Diagnostics", subtitle: "Structural Leakage", impact: "Identified ~12% Structural Leakage", desc: "Utilized tax-to-output ratios and trend-divergence to identify structural revenue leakages across sectors and districts.", tags: ["Tax-to-Output", "Trend Divergence"] },
-                    { id: "06", title: "Workforce Nowcasting", subtitle: "Employment Response", impact: "85%+ Prediction Accuracy", desc: "Developed elasticity-based models using high-frequency proxies (mandi flows, logistics) to estimate real-time employment response.", tags: ["Elasticity Modeling", "Logistics Proxies"] },
-                    { id: "07", title: "Market Opportunity Scoring", subtitle: "Credit Prioritization", impact: "4.2% NIM Increase", desc: "Ranked 75 regions for credit flow prioritization, reallocating capital from saturated metros to high-growth, under-banked hubs.", tags: ["Scoring Model", "Capital Allocation"] },
-                    { id: "08", title: "Multiplier Impact Analysis", subtitle: "Dependency Mapping", impact: "3x Output Effect", desc: "Identified high-impact sectors demonstrating that downstream industries delivered 2-3x higher economy-wide output than primary production.", tags: ["Dependency Mapping", "Multiplier Effect"] }
-                ]
-            };
-
-            const copyToClipboard = (e) => {
-                e.stopPropagation();
-                const textArea = document.createElement("textarea");
-                textArea.value = profile.email;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    setHasCopied(true);
-                    setTimeout(() => setHasCopied(false), 2000);
-                } catch (err) {
-                    console.error('Copy failed', err);
-                }
-                document.body.removeChild(textArea);
-            };
-
-            const displayedWork = workPage === 1 ? profile.work.slice(0, 4) : profile.work.slice(4, 8);
-
-            return (
-                <div className="min-h-screen text-[#1A1A1A] transition-colors duration-500 overflow-x-hidden">
-                    {/* ENHANCED Project Detail Modal */}
-                    {selectedProject && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-                            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setSelectedProject(null)}></div>
-                            <div className="relative w-full max-w-6xl bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] h-[95vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300 rounded-sm">
-                                
-                                {/* Modal Header */}
-                                <div className="flex justify-between items-center px-8 md:px-16 py-8 border-b border-black/5 bg-[#FDFDFD]">
-                                    <div className="flex flex-col">
-                                        <div className="flex items-center gap-3 opacity-30 mb-2">
-                                            <span className="font-mono text-[10px] tracking-widest">{selectedProject.id}</span>
-                                            <span className="w-8 h-px bg-black"></span>
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{selectedProject.subtitle}</span>
-                                        </div>
-                                        <h2 className="text-3xl md:text-4xl font-light tracking-tight text-black/90">{selectedProject.details?.title}</h2>
-                                    </div>
-                                    <button 
-                                        className="p-3 hover:bg-black/5 rounded-full transition-all group border border-transparent hover:border-black/5"
-                                        onClick={() => setSelectedProject(null)}
-                                    >
-                                        <X />
-                                    </button>
-                                </div>
-                                
-                                <div className="flex-1 overflow-y-auto p-8 md:p-16 text-left">
-                                    <div className="max-w-5xl mx-auto">
-                                        
-                                        {/* Intro & Logic Chain Infographic */}
-                                        <div className="grid md:grid-cols-12 gap-12 mb-20">
-                                            <div className="md:col-span-7">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-6 italic">— Strategic Objective</h4>
-                                                <p className="text-xl md:text-2xl font-light leading-relaxed text-black/70 italic border-l-2 border-black/10 pl-8">
-                                                    {selectedProject.details?.objective}
-                                                </p>
-                                            </div>
-                                            <div className="md:col-span-5 bg-black/[0.02] p-8 flex flex-col justify-center">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-6 text-center">Econometric Framework</h4>
-                                                <div className="flex flex-col gap-4 items-center">
-                                                    <div className="w-full text-center py-3 border border-black/5 bg-white text-[10px] font-bold tracking-widest uppercase">Inputs: Market Benchmarks</div>
-                                                    <ChevronRight className="rotate-90 opacity-20" />
-                                                    <div className="w-full text-center py-3 border-2 border-black/10 bg-white text-[10px] font-bold tracking-widest uppercase shadow-sm">Process: Elasticity Simulation</div>
-                                                    <ChevronRight className="rotate-90 opacity-20" />
-                                                    <div className="w-full text-center py-3 border border-black/5 bg-white text-[10px] font-bold tracking-widest uppercase">Output: Optimized Tax Design</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Demand Response Visual Charts */}
-                                        <div className="mb-24">
-                                            <div className="flex justify-between items-end mb-12">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 italic">— Segmented Demand Response</h4>
-                                                <span className="text-[9px] font-mono opacity-20 uppercase tracking-tighter">Fig 01: Multi-Segment Elasticity Map</span>
-                                            </div>
-                                            
-                                            <div className="grid md:grid-cols-3 gap-8">
-                                                {selectedProject.details?.table.map((row, i) => (
-                                                    <div key={i} className="flex flex-col gap-6 p-8 border border-black/5 hover:border-black/10 transition-colors">
-                                                        <div className="flex justify-between items-start">
-                                                            <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{row.type}</span>
-                                                            <span className={`text-[10px] font-bold px-2 py-1 ${row.val > 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                                                                {row.revenue} Rev
-                                                            </span>
-                                                        </div>
-                                                        
-                                                        {/* Bar Chart Infographic */}
-                                                        <div className="h-32 flex items-end justify-center gap-4 py-2 border-b border-black/5">
-                                                            <div className="flex flex-col items-center gap-2 w-full">
-                                                                <div className="w-full bg-black/5 relative overflow-hidden" style={{height: '100px'}}>
-                                                                    <div 
-                                                                        className={`absolute bottom-0 left-0 w-full transition-all duration-1000 delay-300 ${row.val > 0 ? 'bg-black/80' : 'bg-red-400'}`} 
-                                                                        style={{height: `${Math.abs(row.val) * 8}px`}}
-                                                                    ></div>
-                                                                </div>
-                                                                <span className="text-[8px] font-bold uppercase opacity-30">Yield</span>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div className="flex flex-col gap-2 mt-2">
-                                                            <div className="flex justify-between items-center text-[11px]">
-                                                                <span className="opacity-40 uppercase">Price Sensitivity</span>
-                                                                <span className="font-mono">{row.elasticity}</span>
-                                                            </div>
-                                                            <div className="flex justify-between items-center text-[11px]">
-                                                                <span className="opacity-40 uppercase">Demand Shift</span>
-                                                                <span className="font-mono italic">{row.consumption}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Market Mechanisms logic flow */}
-                                        <div className="grid md:grid-cols-2 gap-16 lg:gap-24 mb-20 border-t border-black/5 pt-16">
-                                            <div>
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-10 italic">— Market Mechanisms Captured</h4>
-                                                <div className="space-y-12">
-                                                    {selectedProject.details?.mechanisms.map((m, i) => (
-                                                        <div key={i} className="group text-left">
-                                                            <div className="flex items-center gap-4 mb-3">
-                                                                <span className="font-mono text-xs opacity-10 group-hover:opacity-40 transition-opacity">0{i+1}</span>
-                                                                <h5 className="text-xs font-bold uppercase tracking-widest text-black/80">{m.title}</h5>
-                                                            </div>
-                                                            <p className="text-sm font-light text-black/50 leading-relaxed pl-10 border-l border-black/5">
-                                                                {m.desc}
-                                                            </p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            
-                                            <div className="flex flex-col h-full justify-between gap-12">
-                                                <div className="bg-black text-white p-10 lg:p-14 flex flex-col justify-center h-full">
-                                                    <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-10 italic text-white/60">Optimization Insight</h4>
-                                                    <p className="text-2xl font-light italic leading-[1.3] text-white/90">
-                                                        "A uniform rate increase is structurally inefficient. Differential tax designs allow for revenue frontier maximization by exploiting brand stickiness in FL while mitigating illicit shifts in CL."
-                                                    </p>
-                                                    <div className="mt-12 flex justify-end">
-                                                        <Target />
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className="border border-black/10 p-10">
-                                                    <h4 className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-4 italic">Economic Outcome</h4>
-                                                    <p className="text-sm font-medium leading-relaxed uppercase tracking-tight">
-                                                        {selectedProject.details?.outcome}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Footer of Modal */}
-                                <div className="px-16 py-6 border-t border-black/5 bg-[#FDFDFD] flex justify-between items-center">
-                                    <span className="text-[9px] font-bold opacity-20 uppercase tracking-widest">Confidential Briefing • Deloitte Strategic Pricing</span>
-                                    <div className="flex gap-4">
-                                        <div className="w-2 h-2 rounded-full bg-black/5"></div>
-                                        <div className="w-2 h-2 rounded-full bg-black/10"></div>
-                                        <div className="w-2 h-2 rounded-full bg-black/20"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-6'}`}>
-                        <div className="max-w-7xl mx-auto px-8 flex justify-between items-center text-left">
-                            <span className="font-bold tracking-tighter text-xl uppercase leading-none select-none">{profile.name}</span>
-                            <div className="flex items-center gap-12">
-                                <div 
-                                    ref={emailRef} 
-                                    className="relative group cursor-pointer" 
-                                    onMouseEnter={() => setIsEmailExpanded(true)}
-                                    onClick={(e) => { e.stopPropagation(); setIsEmailExpanded(!isEmailExpanded); }}
-                                >
-                                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-50 transition-opacity">
-                                        <Mail /> Email
-                                    </div>
-                                    {isEmailExpanded && (
-                                        <div className="absolute right-0 top-full mt-4 bg-white border border-black/5 shadow-2xl p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                                            <span className="text-xs font-medium lowercase tracking-normal text-black/60 select-all">{profile.email}</span>
-                                            <button onClick={copyToClipboard} className="p-2 hover:bg-black/5 transition-colors flex items-center gap-2 border-l border-black/5 pl-4">
-                                                {hasCopied ? <><Check /><span className="text-[10px] font-bold uppercase tracking-widest text-green-600 ml-2">Copied</span></> : <><Copy /><span className="text-[10px] font-bold uppercase tracking-widest ml-2">Copy</span></>}
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                                <a href={profile.linkedin} target="_blank" className="text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-50 transition-opacity flex items-center gap-2">
-                                    <Linkedin /> LinkedIn
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-
-                    <section className="pt-28 pb-12 px-8 lg:pt-36 lg:pb-16">
-                        <div className="max-w-7xl mx-auto text-left">
-                            <p className="text-[10px] font-bold tracking-[0.3em] uppercase mb-3 opacity-40 italic">Strategy & Econometrics</p>
-                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[96px] font-medium tracking-tighter leading-[0.9] mb-6 text-black/90">Applied <br/>Econometrics <br/>& Strategy.</h1>
-                            <div className="grid md:grid-cols-2 gap-6 items-start">
-                                <p className="text-base md:text-lg font-light leading-relaxed max-w-xl text-black/60">
-                                    I translate ambiguous business problems into scalable decision models and executive-ready insights. Currently at <span className="text-black font-medium underline decoration-black/10 underline-offset-4">Deloitte</span>.
-                                </p>
-                                <div className="flex justify-start md:justify-end pt-1">
-                                    <div className="md:text-right border-l md:border-l-0 md:border-r border-black/10 pl-5 md:pl-0 md:pr-5">
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-1">Based in</p>
-                                        <p className="text-sm font-medium">India</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-16 px-8 bg-white border-y border-black/5">
-                        <div className="max-w-7xl mx-auto">
-                            <div className="flex justify-between items-end mb-10 text-left">
-                                <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-black/40 italic">Work Showcase</h2>
-                                <div className="flex items-center gap-6">
-                                    <button onClick={() => setWorkPage(1)} disabled={workPage === 1} className={`p-2 rounded-full border border-black/5 transition-all ${workPage === 1 ? 'opacity-10 cursor-not-allowed' : 'opacity-100 hover:bg-black hover:text-white'}`}><ChevronLeft /></button>
-                                    <span className="text-[10px] font-bold tracking-widest tabular-nums opacity-60">0{workPage} / 02</span>
-                                    <button onClick={() => setWorkPage(2)} disabled={workPage === 2} className={`p-2 rounded-full border border-black/5 transition-all ${workPage === 2 ? 'opacity-10 cursor-not-allowed' : 'opacity-100 hover:bg-black hover:text-white'}`}><ArrowRight size={16} /></button>
-                                </div>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-px bg-black/5 border border-black/5 text-left transition-all duration-500 min-h-[500px]">
-                                {displayedWork.map((item) => (
-                                    <div 
-                                        key={item.id} 
-                                        onClick={() => item.hasDetailedView && setSelectedProject(item)}
-                                        className={`bg-white p-8 md:p-12 lg:p-14 flex flex-col justify-between group transition-colors duration-500 ${item.hasDetailedView ? 'cursor-pointer hover:bg-[#FDFDFD]' : 'cursor-default'}`}
-                                    >
-                                        <div>
-                                            <div className="flex justify-between mb-6">
-                                                <span className="font-mono text-xs opacity-30">{item.id}</span>
-                                                {item.hasDetailedView && (
-                                                    <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-                                                        <ArrowRight />
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-1">{item.subtitle}</p>
-                                            <h3 className="text-2xl lg:text-3xl font-light tracking-tight mb-4 leading-tight">{item.title}</h3>
-                                            <p className="text-black/50 text-sm leading-relaxed mb-8 max-w-xs">{item.desc}</p>
-                                        </div>
-                                        <div className="pt-6 border-t border-black/5">
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-black/30 mb-1">Impact</p>
-                                            <p className="text-xl font-medium tracking-tight">{item.impact}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-16 px-8">
-                        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20 text-left">
-                            <div className="lg:col-span-7">
-                                <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-black/40 mb-8 italic">Background</h2>
-                                <p className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] tracking-tight text-black/80 text-black/90">Quantitative expertise rooted in the <span className="text-black font-normal underline decoration-black/10 underline-offset-4">Delhi School of Economics</span>. Specialized in diagnostics and surfacing hidden value.</p>
-                                <div className="mt-12 lg:mt-16 grid sm:grid-cols-2 gap-10 border-t border-black/10 pt-10">
-                                    <div>
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3 text-left">Education</p>
-                                        <div className="space-y-4 text-left text-sm">
-                                            <div><p className="font-bold uppercase tracking-tight">Master in Economics</p><p className="text-black/50 italic font-light">DSE Delhi, 2023</p></div>
-                                            <div><p className="font-bold uppercase tracking-tight">Bachelors in Economics</p><p className="text-black/50 italic font-light">Kirori Mal College, 2021</p></div>
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-3">Leadership</p>
-                                        <p className="text-sm leading-relaxed text-black/60 font-light">Managing client-facing analytics deliveries and mentoring a team of 4+ analysts at Deloitte.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="lg:col-span-5">
-                                <div className="bg-[#1A1A1A] text-white p-8 md:p-10 flex flex-col justify-between h-full border border-black/5 shadow-2xl">
-                                    <div>
-                                        <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-6 text-white/60">Technical Stack</p>
-                                        <div className="space-y-4">
-                                            {["R (Advanced)", "Python", "SQL", "Power BI", "LaTeX", "Adobe Suite"].map((skill, i) => (
-                                                <div key={i} className="flex justify-between items-center border-b border-white/10 pb-1.5 text-xs">
-                                                    <span className="font-light">{skill}</span><ChevronRight />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="mt-12 flex justify-between items-end">
-                                        <div className="text-left"><p className="text-[10px] font-bold uppercase opacity-40 mb-1 italic tracking-widest">Interests</p><p className="text-[10px] font-medium tracking-tight">Photography • Drumming</p></div>
-                                        <div className="text-right">
-                                            <p className="text-[10px] font-bold uppercase opacity-40 mb-1 tracking-tight">Springfield Grads Olympiad</p>
-                                            <p className="text-[10px] font-medium tracking-tight">National Rank 198</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-16 px-8 bg-white border-t border-black/5 text-left">
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
-                            <div className="md:w-1/3"><h2 className="text-xs font-bold tracking-[0.3em] uppercase text-black/40 italic">Tenure</h2></div>
-                            <div className="md:w-2/3 md:border-l border-black/5 md:pl-12">
-                                <div className="flex flex-col md:flex-row md:items-end justify-between mb-5 gap-4">
-                                    <div><h3 className="text-2xl md:text-4xl font-light tracking-tight text-black/90">Deloitte</h3><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-40 mt-1">{profile.practice}</p></div>
-                                    <span className="text-[9px] font-bold uppercase tracking-widest opacity-40 italic mb-1">2023 — Present</span>
-                                </div>
-                                <p className="text-lg md:text-xl font-light text-black/60 leading-relaxed italic max-w-xl">"Architecting mission-critical decision models that translate complex economic signals into high-stakes executive strategy and multi-billion dollar impact."</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-20 px-8 bg-[#FDFDFD] border-t border-black/5">
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 text-left">
-                            <div className="w-full md:w-1/2">
-                                <div className="aspect-[4/3] bg-white relative overflow-hidden group flex items-center justify-center border border-black/5 p-8 lg:p-12 shadow-sm transition-shadow hover:shadow-md duration-500">
-                                    <img src={profile.logoUrl} alt="Logo" className="w-full h-full object-contain mix-blend-multiply opacity-80 group-hover:scale-105 transition-transform duration-700" />
-                                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none flex items-center justify-center">
-                                        <Camera />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/2">
-                                <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-black/40 mb-4 italic">Beyond the Data</h2>
-                                <h3 className="text-4xl font-light tracking-tight mb-8 text-black/90">Creative Perspective</h3>
-                                <p className="text-xl font-light text-black/60 leading-relaxed italic mb-10 max-w-md">"Applying the same precision of an econometrician’s lens to the geometry of the world."</p>
-                                <a href={profile.photography} target="_blank" className="group inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] pb-1 border-b border-black/20 hover:border-black transition-all">Explore elartsylens.com <ArrowRight size={14} /></a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-24 px-8 text-left bg-white border-t border-black/5">
-                        <div className="max-w-7xl mx-auto">
-                            <div className="grid md:grid-cols-2 gap-16 items-start">
-                                <div>
-                                    <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-black/40 mb-10 italic">Let's Connect</h2>
-                                    <h3 className="text-3xl font-light tracking-tight mb-4 text-black/90">Open for Strategic Collaborations.</h3>
-                                    <p className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter mb-12 select-all leading-[0.9] text-black/90">Let's build the future of <br/>evidence-led strategy.</p>
-                                </div>
-                                <div className="flex flex-col gap-6 md:pt-20">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8 border-t border-black/5 pt-8">
-                                        <div><p className="text-[10px] font-bold uppercase tracking-widest text-black/30 mb-2">LinkedIn</p><a href={profile.linkedin} target="_blank" className="text-sm font-medium hover:opacity-50 transition-opacity flex items-center gap-2 underline underline-offset-4 decoration-black/10">{profile.linkedinHandle}</a></div>
-                                        <div><p className="text-[10px] font-bold uppercase tracking-widest text-black/30 mb-2">Photography</p><a href={profile.photography} target="_blank" className="text-sm font-medium hover:opacity-50 transition-opacity flex items-center gap-2 underline underline-offset-4 decoration-black/10">elartsylens.com</a></div>
-                                        <div className="sm:col-span-2"><p className="text-[10px] font-bold uppercase tracking-widest text-black/30 mb-2">Email</p><div onClick={copyToClipboard} className="text-sm font-medium hover:opacity-50 transition-all flex items-center gap-3 underline underline-offset-4 decoration-black/10 cursor-pointer select-all"><span>{profile.email}</span>{hasCopied && <span className="text-[10px] font-bold uppercase tracking-widest text-green-600 animate-in fade-in slide-in-from-left-2 duration-300 ml-3">Copied</span>}</div></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <footer className="py-12 border-t border-black/5 px-8 bg-white text-left">
-                        <div className="max-w-7xl mx-auto flex justify-between items-center text-[9px] font-bold opacity-20 uppercase tracking-widest">
-                            <span>{profile.name} — 2026</span><span className="hidden md:inline text-black/40">STRATEGY & ECONOMETRICS</span>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

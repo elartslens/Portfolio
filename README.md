@@ -4,11 +4,11 @@ Professional portfolio for Rohit Rawat, Quantitative Economist.
 
 ## Repository
 
-[https://github.com/elartsylens/Portfolio](https://github.com/elartslens/Portfolio)
+[https://github.com/elartsylens/Portfolio](https://github.com/elartsylens/Portfolio)
 
 ## Live Site
 
-[https://elartslens.github.io/Portfolio](https://elartslens.github.io/Portfolio)
+[https://elartslens.github.io/Portfolio](https://elartsylens.github.io/Portfolio)
 
 ## Tech Stack
 
